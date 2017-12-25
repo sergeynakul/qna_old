@@ -28,7 +28,7 @@ module Qna
                        routing_specs: false,
                        request_specs: false,
                        controller_spec: true
-      g.fixture_replacement :facrory_bot, dir: 'spec/factories'
+      g.fixture_replacement :factory_bot, dir: 'spec/factories'
     end
   end
 end
