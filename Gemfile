@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
 # Use postgresql as the database for Active Record
-gem 'pg'
+gem 'pg', '~> 0.20.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -27,14 +27,17 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 group :test, :development do
+	gem 'rspec'
 	gem 'rspec-rails'
 	gem 'factory_bot_rails'
+	gem 'capybara'
+    gem 'launchy'
+    gem 'selenium-webdriver', '2.41.0'
+    gem 'database_cleaner'
 end
 
 group :test do
   gem 'shoulda-matchers', '2.7.0'
-  gem 'capybara'
-  gem 'launchy'
 end
 
 gem 'slim-rails'
