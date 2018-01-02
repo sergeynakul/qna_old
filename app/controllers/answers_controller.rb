@@ -1,27 +1,31 @@
 class AnswersController < ApplicationController
+	before_action :authenticate_user!
+	before_action :load_answer, only: :update
+	after_action :publish_answer, only: :create
+
+	respond_to :js
+	respond_to :json, only: :create
+
 	def create
 		@question = Question.find(params[:question_id])
-		@answer = @question.answers.create(answer_params)
-
-		respond_to do |format|
-			if @answer.save
-				format.js do
-					PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
-					render nothing: true
-				end
-			else
-				format.js
-			end
-		end
+		respond_with(@answer = @question.answers.create(answer_params))
 	end
 
 	def update
-		@answer = Answer.find(params[:id])
 		@answer.update(answer_params)
-		@question = @answer.question
+		respond_with @answer
 	end
 
 	private
+
+	def load_answer
+		@answer = Answer.find(params[:id])
+		@question = @answer.question
+    end
+
+    def publish_answer
+    	PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+    end
 
 	def answer_params
 		params.require(:answer).permit(:body, attachments_attributes: [:file])
